@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: url("../assets/bg-images/bg-main-blur.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+header {
+  padding: 20px;
+  background: linear-gradient(to bottom, #2a5181, #1a3c58);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.header-logo-img {
+  height: 90px;
+  width: auto;
+}
+
+.header-title-div h2 {
+  font-family: "Merriweather Sans", sans-serif;
+  font-weight: 600;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: 40px;
+  letter-spacing: 2px;
+}
+
+.header-title-div span {
+  font-family: "Lexend Deca", serif;
+  color: #ffff;
+  font-size: 18px;
+}
+
+.header-search-div div {
+  position: relative;
+  width: 80%;
+}
+
+.header-search-div input {
+  width: 100%;
+  padding-left: 45px;
+  outline: none;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 18px;
+  border: 3px solid #1a3c58;
+  border-radius: 20px;
+  color: #2a5181;
+  font-weight: 500;
+}
+
+.header-search-div i {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #1a3c58;
+}
+
+section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.home-weather-row {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  padding: 30px 20px;
+  margin-bottom: 100px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.home-weather-left img{
+    height: 280px;
+    width: auto;
+    margin-bottom: 30px;
+}
+
+.home-weather-left h2{
+    font-family: "Lexend Deca", serif;
+    color: #0f2334;
+    font-size: 38px;
+    margin-bottom: 25px;
+}
+
+.home-weather-left h3{
+    font-family: "Lexend Deca", serif;
+    color: #0f2334;
+    margin-bottom: 25px;
+    font-size: 32px;
+}
+
+.home-weather-left div{
+    width: 100%;
+    gap: 20px;
+    font-family: "Nunito Sans", serif;
+}
+
+.home-weather-left div span{
+    font-size: 20px;
+    color: #0f2334;
+    font-weight: 500;
+}
+
+.home-weather-left div span:nth-of-type(1) b {
+    color: #11a9cf;
+}
+.home-weather-left div span:nth-of-type(2) b {
+    color: #cf1111;
+}
+
+.home-weather-right h2{
+    font-family: "Lexend Deca", serif;
+    color: #0f2334;
+    font-size: 30px;
+    margin-bottom: 25px;
+}
