@@ -34,17 +34,22 @@
           >
         </div>
         <div
-          class="col-lg-4 col-12 d-flex flex-row align-items-center justify-content-lg-end justify-content-center header-search-div"
+          class="col-lg-4 col-12 gap-3 d-flex flex-row align-items-center text-lg-end justify-content-lg-end justify-content-center header-select-div"
         >
-          <div>
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" />
+          <div class="col-lg-5 col-12 d-flex flex-row align-items-center">
+            <select id="selectHeaderProvince" class="select-province"></select>
+          </div>
+          <div class="col-lg-5 col-12 d-flex flex-row align-items-center">
+            <select
+              id="selectHeaderMunicipality"
+              class="select-municipality"
+            ></select>
           </div>
         </div>
       </div>
     </header>
     <section
-      class="container mt-lg-0 mt-5 mb-5 justify-content-center align-items-center"
+      class="container mt-lg-0 mt-5 mb-5 d-flex flex-column justify-content-center align-items-center main-home-section"
     >
       <div
         class="row justify-content-center align-items-center home-weather-row"
@@ -52,14 +57,18 @@
         <div
           class="col-lg-4 col-12 d-flex flex-column align-items-center justify-content-center home-weather-left"
         >
-          <img src="./assets/weather-icons/rainy.png" alt="weather-icon" />
-          <h2 id="homeMunicipality">Niguelas</h2>
-          <h3 id="homeTemperature">10º</h3>
+          <img
+            id="homeImg"
+            src="./assets/weather-icons/rain.png"
+            alt="weather-icon"
+          />
+          <h2 id="homeMunicipality">None</h2>
+          <h3 id="homeTemperature">None</h3>
           <div
             class="d-flex flex-row align-items-center justify-content-center"
           >
-            <span>Min: <b id="homeMinTemperature">3º</b></span>
-            <span>Max: <b id="homeMaxTemperature">12º</b></span>
+            <span>Min: <b id="homeMinTemperature">None</b></span>
+            <span>Max: <b id="homeMaxTemperature">None</b></span>
           </div>
         </div>
         <div
@@ -67,54 +76,82 @@
         >
           <h2>Información adicional</h2>
           <div class="separation-div"></div>
-          <h3>Estado: <span id="homeState">Cubierto con lluvia</span></h3>
+          <h3>Estado: <span id="homeState">None</span></h3>
           <div class="separation-div"></div>
-          <h3>Prob. lluvia: <span id="homeRainChance">100%</span></h3>
+          <h3>Prob. lluvia: <span id="homeRainChance">None</span></h3>
           <div class="separation-div"></div>
-          <h3>Humedad: <span id="homeHumidity">55%</span></h3>
+          <h3>Humedad: <span id="homeHumidity">None</span></h3>
           <div class="separation-div"></div>
           <div class="row align-items-center sunrise-sunset-home-div">
-            <div class="col-lg-5 col-12 mb-lg-0 mb-4 d-flex flex-row align-items-lg-start align-items-center justify-content-lg-start justify-content-center text-lg-start text-center">
+            <div
+              class="col-lg-5 col-12 mb-lg-0 mb-4 d-flex flex-row align-items-lg-start align-items-center justify-content-lg-start justify-content-center text-lg-start text-center"
+            >
               <h3>Puesta y salida del sol:</h3>
             </div>
-            <div class="col-lg-7 col-12 d-flex flex-row align-items-lg-start align-items-center justify-content-lg-start justify-content-center text-lg-start text-center">
+            <div
+              class="col-lg-7 col-12 d-flex flex-row align-items-center justify-content-lg-start justify-content-center text-lg-start text-center"
+            >
               <img src="./assets/weather-icons/sunrise.png" />
-              <span id="homeSunrise">7:15</span>
+              <span id="homeSunrise">None</span>
               <img src="./assets/weather-icons/sunset.png" />
-              <span id="homeSunset">19:02</span>
+              <span id="homeSunset">None</span>
             </div>
           </div>
         </div>
       </div>
+      <div
+        class="row justify-content-center d-flex flex-column align-items-center upcoming-weather-row"
+      >
+      <div class="col-12 text-center">
+        <h2>Proximos días</h2>
+      </div>
+      <div class="col-12 justify-content-center d-flex flex-row align-items-center upcoming-days-row">
+        <div class="col-lg-2 col-12 gap-3 justify-content-center text-center align-items-center d-flex flex-column upcoming-day-column">
+          <h4>Jue, 27 Febrero</h4>
+          <div class="col-12 gap-3 justify-content-center text-center align-items-center d-flex flex-column">
+            <img src="./assets/weather-icons/snow.png" alt="upcoming-weather-icon">
+            <h5>Nieve</h5>
+          </div>
+          <div class="col-12 gap-3 justify-content-center text-center align-items-center d-flex flex-row upcoming-min-max-div">
+            <span>Min: <b>2º</b></span>
+            <div class="upcoming-separation-div"></div>
+            <span>Max: <b>15º</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
     </section>
     <footer class="container-fluid">
       <div class="row justify-content-between footer-row gap-lg-0 gap-4">
         <div
-          class="col-lg-4 col-12 d-flex flex-row align-items-center justify-content-lg-start justify-content-center footer-col"
+          class="col-lg-4 col-12 d-flex flex-row align-items-center justify-content-lg-start justify-content-center text-lg-start text-center footer-col"
         >
           <h4>- MangoDev - 2025 | mangodev03@gmail.com</h4>
         </div>
         <div
           class="col-lg-4 col-12 d-flex flex-column align-items-center justify-content-center text-center footer-col"
         >
-        <h4>Con datos de la API de <a href="https://www.el-tiempo.net/">El-Tiempo.net</a></h4>
+          <h4>
+            Con datos de la API de
+            <a href="https://www.el-tiempo.net/">El-Tiempo.net</a>
+          </h4>
         </div>
         <div
           class="col-lg-4 col-12 gap-3 d-flex flex-row align-items-center justify-content-lg-end justify-content-center footer-social-col"
         >
-        <h4>Mis redes:</h4>
-        <a href="https://x.com/Angelniwe33">
-          <i class="fa-brands fa-twitter"></i>
-        </a>
-        <a href="https://www.instagram.com/angeel_rc3/">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="https://github.com/MangowDev">
-          <i class="fa-brands fa-github"></i>
-        </a>
-        <a href="https://es.linkedin.com/in/%C3%A1ngel-robles-76784a313">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
+          <h4>Mis redes:</h4>
+          <a href="https://x.com/Angelniwe33">
+            <i class="fa-brands fa-twitter"></i>
+          </a>
+          <a href="https://www.instagram.com/angeel_rc3/">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://github.com/MangowDev">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://es.linkedin.com/in/%C3%A1ngel-robles-76784a313">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
         </div>
       </div>
     </footer>
@@ -122,6 +159,6 @@
       src="https://kit.fontawesome.com/8b39d50696.js"
       crossorigin="anonymous"
     ></script>
-    <script src="./js/app.js"></script>
+    <script type="module" src="./js/app.js"></script>
   </body>
 </html>
