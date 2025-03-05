@@ -3,6 +3,7 @@ const weatherIcons = {
   "Lluvia": { day: "rain.png", night: "rain.png" },
   "Muy nuboso con lluvia": { day: "rain.png", night: "rain.png" },
   "Muy nuboso con lluvia escasa": { day: "rain.png", night: "rain.png" },
+  "Muy nuboso con tormenta y lluvia escasa": { day: "cloudyStorm.png", night: "cloudyStorm.png" },
   "Nuboso con lluvia escasa": { day: "rain.png", night: "rain.png" },
   "Nuboso con lluvia": { day: "rain.png", night: "rain.png" },
   "Cubierto con lluvia": { day: "cloudyRain.png", night: "cloudyRain-night.png" },
