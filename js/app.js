@@ -1,10 +1,13 @@
 import weatherIcons from "./utils/weatherIcons.js";
+import provinceCodes from "./utils/provinceCodes.js";
 
 const homeWeatherRow = document.querySelector("#homeWeatherRow");
 const upcomingWeatherRow = document.querySelector("#upcomingWeatherRow");
 const upcomingDaysRow = document.querySelector("#upcomingDaysRow");
 const upcomingHoursRow = document.querySelector("#upcomingHoursRow");
 const upcomingHourRow = document.querySelector("#upcomingHourRow");
+const nearMunicipalitiesRow = document.querySelector("#nearMunicipalitiesRow");
+const nearMunicipalityRow = document.querySelector("#nearMunicipalityRow");
 const selectLocationRow = document.querySelector("#selectLocationRow");
 const homeDay = document.querySelector("#homeDay");
 const homeImg = document.querySelector("#homeImg");
@@ -133,6 +136,8 @@ async function getMunicipalities() {
       selectHeaderMunicipality.value = selectedMunicipalityCode;
       selectSectionMunicipality.value = selectedMunicipalityCode;
     }
+
+    return data.municipios;
   } catch (error) {
     console.error("Error obteniendo municipios:", error);
   }
@@ -327,9 +332,9 @@ async function getUpcomingDays() {
     upcomingDaysRow.innerHTML = "";
 
     upcomingDays.forEach((day) => {
-      const fecha = day["@attributes"].fecha;
+      const date = day["@attributes"].fecha;
 
-      const estadoCielo = Array.isArray(day.estado_cielo_descripcion)
+      const skyState = Array.isArray(day.estado_cielo_descripcion)
         ? day.estado_cielo_descripcion[0]
         : day.estado_cielo_descripcion;
 
@@ -349,15 +354,15 @@ async function getUpcomingDays() {
         "upcoming-day-column"
       );
 
-      const weatherIcon = weatherIcons[estadoCielo]
-        ? `./assets/weather-icons/${weatherIcons[estadoCielo][localHour]}`
+      const weatherIcon = weatherIcons[skyState]
+        ? `./assets/weather-icons/${weatherIcons[skyState][localHour]}`
         : "./assets/weather-icons/sun.png";
 
       dayElement.innerHTML = `
-        <h4>${formatDate(fecha)}</h4>
+        <h4>${formatDate(date)}</h4>
         <div class="col-12 gap-3 justify-content-center text-center align-items-center d-flex flex-column">
           <img src="${weatherIcon}" alt="upcoming-weather-icon" />
-          <h5>${estadoCielo}</h5>
+          <h5>${skyState}</h5>
         </div>
         <div class="col-12 gap-3 justify-content-center text-center align-items-center d-flex flex-row upcoming-min-max-div">
           <span>Min: <b>${minTemp}º</b></span>
@@ -367,6 +372,109 @@ async function getUpcomingDays() {
       `;
 
       upcomingDaysRow.appendChild(dayElement);
+    });
+  } catch (error) {
+    console.error("Error obteniendo el clima:", error);
+  }
+}
+
+async function getNearMunicipalities() {
+  if (
+    !selectedProvinceCode ||
+    !selectedMunicipalityCode ||
+    selectedProvinceCode === "default" ||
+    selectedMunicipalityCode === "default"
+  ) {
+    console.warn(
+      "No hay provincia o municipio seleccionado. No se puede obtener el clima."
+    );
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `https://www.el-tiempo.net/api/json/v2/provincias/${selectedProvinceCode}/municipios`
+    );
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+    const data = await response.json();
+
+    const allMunicipalities = data.municipios;
+
+    nearMunicipalityRow.innerHTML = "";
+
+    let filteredMunicipalities = [];
+
+    const sortedMunicipalities = allMunicipalities.sort(
+      (a, b) => b.POBLACION_MUNI - a.POBLACION_MUNI
+    );
+
+    sortedMunicipalities.forEach((municipality, index) => {
+      if (index < 6) {
+        filteredMunicipalities.push(municipality);
+      }
+    });
+
+    filteredMunicipalities.forEach((municipality) => {
+      const municipalityCode = municipality.CODIGOINE.slice(0, 5);
+      (async () => {
+        try {
+          const response = await fetch(
+            `https://www.el-tiempo.net/api/json/v2/provincias/${selectedProvinceCode}/municipios/${municipalityCode}`
+          );
+          if (!response.ok) throw new Error(`Error: ${response.status}`);
+          const municipalityData = await response.json();
+
+          if (!municipalityData) {
+            console.warn(
+              `No hay datos de clima para ${municipality.municipio.NOMBRE}`
+            );
+            return;
+          }
+
+          const municipalityName = municipalityData.municipio.NOMBRE;
+          const skyState = municipalityData.stateSky.description;
+
+          const minTemp = municipalityData.temperaturas.min;
+          const maxTemp = municipalityData.temperaturas.max;
+
+          const municipalityElement = document.createElement("div");
+          municipalityElement.classList.add(
+            "col-lg-3",
+            "col-12",
+            "gap-3",
+            "justify-content-center",
+            "text-center",
+            "align-items-center",
+            "d-flex",
+            "flex-column",
+            "near-municipality-column"
+          );
+
+          const weatherIcon = weatherIcons[skyState]
+            ? `./assets/weather-icons/${weatherIcons[skyState][localHour]}`
+            : "./assets/weather-icons/sun.png";
+
+          municipalityElement.innerHTML = `
+            <h4>${municipalityName}</h4>
+            <div class="col-12 gap-3 justify-content-center text-center align-items-center d-flex flex-column">
+              <img src="${weatherIcon}" alt="upcoming-weather-icon" />
+              <h5>${skyState}</h5>
+            </div>
+            <div class="col-12 gap-3 justify-content-center text-center align-items-center d-flex flex-row upcoming-min-max-div">
+              <span>Min: <b>${minTemp}º</b></span>
+              <div class="upcoming-separation-div"></div>
+              <span>Max: <b>${maxTemp}º</b></span>
+            </div>
+          `;
+
+          nearMunicipalityRow.appendChild(municipalityElement);
+        } catch (error) {
+          console.error(
+            `Error obteniendo el clima de ${municipality.municipio.NOMBRE}:`,
+            error
+          );
+        }
+      })();
     });
   } catch (error) {
     console.error("Error obteniendo el clima:", error);
@@ -386,6 +494,8 @@ function toggleWeatherRows() {
     upcomingHoursRow.classList.add("d-flex");
     upcomingWeatherRow.style.display = "flex";
     upcomingWeatherRow.classList.add("d-flex");
+    nearMunicipalitiesRow.style.display = "flex";
+    nearMunicipalitiesRow.classList.add("d-flex");
     mapContainer.style.display = "flex";
     mapContainer.classList.add("d-flex");
     selectLocationRow.style.display = "none";
@@ -393,6 +503,7 @@ function toggleWeatherRows() {
     getHomeWeather();
     getUpcomingHours();
     getUpcomingDays();
+    getNearMunicipalities();
   } else {
     homeWeatherRow.style.display = "none";
     homeWeatherRow.classList.remove("d-flex");
@@ -400,6 +511,8 @@ function toggleWeatherRows() {
     upcomingHoursRow.classList.remove("d-flex");
     upcomingWeatherRow.style.display = "none";
     upcomingWeatherRow.classList.remove("d-flex");
+    nearMunicipalitiesRow.style.display = "none";
+    nearMunicipalitiesRow.classList.remove("d-flex");
     mapContainer.style.display = "none";
     mapContainer.classList.remove("d-flex");
     selectLocationRow.style.display = "none";
@@ -411,14 +524,12 @@ function toggleWeatherRows() {
 allowLocationButton.addEventListener("click", function () {
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
-      function (position) {
+      async function (position) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
-        console.log(`Latitud: ${latitude}, Longitud: ${longitude}`);
-        alert(`Tu ubicación es:\nLatitud: ${latitude}\nLongitud: ${longitude}`);
         localStorage.setItem("latitude", latitude);
         localStorage.setItem("longitude", longitude);
-        getLocation();
+        await getPreciseLocation();
       },
       function (error) {
         console.log("Error obteniendo la ubicación: ", error);
@@ -445,6 +556,117 @@ function getLocation() {
     latitude + 0.05
   }&layer=mapnik&marker=${latitude},${longitude}`;
 }
+
+async function getPreciseLocation() {
+  const latitude = parseFloat(localStorage.getItem("latitude"));
+  const longitude = parseFloat(localStorage.getItem("longitude"));
+
+  if (!latitude || !longitude) {
+    console.warn("La ubicación no está disponible.");
+    return;
+  }
+
+  weatherMap.src = `https://www.openstreetmap.org/export/embed.html?bbox=${
+    longitude - 0.05
+  },${latitude - 0.05},${longitude + 0.05},${
+    latitude + 0.05
+  }&layer=mapnik&marker=${latitude},${longitude}`;
+
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data && data.address) {
+      const province = data.address.province;
+      if (province) {
+        const provinceCode = provinceCodes[province];
+        if (provinceCode) {
+          selectedProvinceCode = provinceCode;
+          localStorage.setItem("selectedProvinceCode", selectedProvinceCode);
+
+          selectHeaderProvince.value = selectedProvinceCode;
+          selectSectionProvince.value = selectedProvinceCode;
+
+          await getMunicipalityByLocation();
+
+          selectHeaderMunicipality.value = selectedMunicipalityCode;
+          selectSectionMunicipality.value = selectedMunicipalityCode;
+
+          toggleWeatherRows();
+        } else {
+          console.warn("Código de provincia no encontrado.");
+        }
+      } else {
+        console.warn("No se pudo obtener la provincia.");
+      }
+    } else {
+      console.warn("No se pudo obtener la provincia.");
+    }
+  } catch (error) {
+    console.error("Error al obtener la provincia:", error);
+  }
+}
+
+async function getMunicipalityByLocation() {
+  try {
+    const municipalities = await getMunicipalities();
+    if (!municipalities) return;
+
+    const locationLat = parseFloat(localStorage.getItem("latitude"));
+    const locationLon = parseFloat(localStorage.getItem("longitude"));
+
+    let distances = [];
+    municipalities.forEach((municipio) => {
+      const municipioLat = parseFloat(municipio.LATITUD_ETRS89_REGCAN95);
+      const municipioLon = parseFloat(municipio.LONGITUD_ETRS89_REGCAN95);
+
+      const distance = haversine(
+        municipioLat,
+        municipioLon,
+        locationLat,
+        locationLon
+      );
+
+      distances.push({
+        distance: distance,
+        municipalityCode: municipio.CODIGOINE.slice(0, 5)
+      });
+    });
+
+    const closest = distances.reduce((min, curr) => 
+      curr.distance < min.distance ? curr : min, { distance: Infinity });
+
+    selectedMunicipalityCode = closest.municipalityCode;
+    localStorage.setItem("selectedMunicipalityCode", selectedMunicipalityCode);
+
+    selectHeaderMunicipality.value = selectedMunicipalityCode;
+    selectSectionMunicipality.value = selectedMunicipalityCode;
+
+  } catch (error) {
+    console.error("Error al obtener municipios cercanos:", error);
+  }
+}
+
+function toRadians(degrees) {
+  return degrees * Math.PI / 180;
+}
+
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = toRadians(lat2 - lat1);
+  const dLon = toRadians(lon2 - lon1);
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+}
+
 
 function formatDate(fecha) {
   const date = new Date(fecha);

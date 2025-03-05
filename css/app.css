@@ -314,6 +314,8 @@ header {
   border-bottom: 2px solid #0f2334;
   padding-bottom: 20px;
   width: 80%;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .upcoming-day-column h5{
@@ -407,6 +409,8 @@ header {
   border-bottom: 2px solid #0f2334;
   padding-bottom: 20px;
   width: 80%;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .upcoming-hour-column h5{
@@ -433,8 +437,81 @@ header {
   margin-top: 10px;
 }
 
+.near-municipalities-row{
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  padding: 40px 20px;
+  margin-top: 50px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.near-municipalities-row h2{
+  font-size: 38px;
+  margin-bottom: 30px;
+  font-family: "Lexend Deca", serif;
+  color: #0f2334;
+
+}
+
+.near-municipality-row {
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; 
+  padding-bottom: 30px;
+  padding-top: 15px; 
+}
+
+
+.near-municipality-column{
+  background-color: #ffff;
+  padding: 20px 0px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
+}
+
+.near-municipality-column:hover{
+  transform: scale(1.03);
+  transition: 0.3s;
+}
+
+.near-municipality-column img{
+  height: 80px;
+  width: auto;
+}
+
+.near-municipality-column h4{
+  font-size: 26px;
+  color: #0f2334;
+  font-family: "Lexend Deca", serif;
+  border-bottom: 2px solid #0f2334;
+  padding-bottom: 20px;
+  width: 80%;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.near-municipality-column h5{
+  font-size: 22px;
+  color: #0f2334;
+  font-family: "Lexend Deca", serif;
+  max-width: 90%;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+
 .map-container{
   margin-top: 50px;
+}
+
+.map-container iframe{
+  border-left: 2px solid #0f2334;
+  border-right: 2px solid #0f2334;
 }
 
 .map-title{

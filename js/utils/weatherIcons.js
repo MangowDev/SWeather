@@ -2,6 +2,7 @@ const weatherIcons = {
   "Despejado": { day: "sun.png", night: "moon.png" },
   "Lluvia": { day: "rain.png", night: "rain.png" },
   "Muy nuboso con lluvia": { day: "rain.png", night: "rain.png" },
+  "Muy nuboso con lluvia escasa": { day: "rain.png", night: "rain.png" },
   "Nuboso con lluvia escasa": { day: "rain.png", night: "rain.png" },
   "Nuboso con lluvia": { day: "rain.png", night: "rain.png" },
   "Cubierto con lluvia": { day: "cloudyRain.png", night: "cloudyRain-night.png" },
